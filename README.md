@@ -31,6 +31,8 @@ Checkbox toggles to show if arrows are printed in the details grid
 
 To-do: 
 
+FIX ARROW TOGGLING
+
 header title for list (Highest Value Words)
 
 highlight first tile in path
