@@ -14,31 +14,6 @@
 
 const int SIZE = 5;  // Grid size
 
-bool Trie::searchWord(const std::string& word) {
-    TrieNode* current = root;
-
-    for (char c : word) {
-        if (current->children.find(c) == current->children.end()) {
-            return false;
-        }
-        current = current->children[c];
-    }
-
-    return current->isWord;
-}
-
-bool Trie::searchPrefix(const std::string& prefix) {
-    TrieNode* current = root;
-
-    for (char c : prefix) {
-        if (current->children.find(c) == current->children.end()) {
-            return false;
-        }
-        current = current->children[c];
-    }
-    return true;
-}
-
 bool Word::operator<(const Word& other) const {
     return value > other.value;
 }
@@ -68,9 +43,9 @@ int calculateWordValue(const std::vector<std::pair<int, int>>& path, const std::
 }
 
 // Function to perform DFS traversal to find the word with the highest value
-void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& currCell, const std::string& prefix, std::priority_queue<Word>& topWords, 
-std::vector<std::vector<bool>>& visited, const std::map<char, int>& letterValues, const std::vector<std::vector<int>>& letterMultipliers, 
-const std::vector<std::vector<bool>>& wordMultipliers, int wordMultiplier, int maxSwaps, std::vector<std::pair<int, int>>& path, 
+void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& currCell, const std::string& prefix, std::priority_queue<Word>& topWords,
+std::vector<std::vector<bool>>& visited, const std::map<char, int>& letterValues, const std::vector<std::vector<int>>& letterMultipliers,
+const std::vector<std::vector<bool>>& wordMultipliers, int wordMultiplier, int maxSwaps, std::vector<std::pair<int, int>>& path,
 std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber) {
     // Check if the current prefix is a valid word
     std::string prefixLowerCase = prefix;
@@ -89,8 +64,8 @@ std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber
     if (wordMultipliers[currCell.row][currCell.col] || hasWordMultiplier) {
         newWordMultiplier = 2;
     }
-    
-    
+
+
     if (validWords.searchWord(prefixLowerCase)) {
         int value = calculateWordValue(path, grid, letterValues, letterMultipliers, wordMultiplier);
         if (topWords.size() < scoreNumber || value > topWords.top().value) {
@@ -106,43 +81,43 @@ std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber
             }
         }
     }
-    
+
     // Define the possible directions: up, down, left, right, diagonals
     const std::vector<int> dr = {-1, 1, 0, 0, -1, 1, -1, 1};
     const std::vector<int> dc = {0, 0, -1, 1, -1, 1, 1, -1};
-    
+
     // Iterate over all possible directions
     for (int i = 0; i < 8; ++i) {
         int newRow = currCell.row + dr[i];
         int newCol = currCell.col + dc[i];
-        
+
         // Check if the new cell is within the grid and hasn't been visited before
         if (isValidCell(newRow, newCol) && grid[newRow][newCol] != '\0' && !visited[newRow][newCol]) {
             char temp = grid[newRow][newCol];
-            
+
             // Mark the current cell as visited
             visited[newRow][newCol] = true;
-            
+
             // Check if the prefix is a prefix of any word in the set
             bool isPrefix = false;
             std::string newPrefix = prefix + temp;
             if (validWords.searchPrefix(newPrefix)) {
                 isPrefix = true;
             }
-            
+
             // Recursively traverse to the next cell only if the prefix is a prefix of at least one word
             if (isPrefix) {
                 path.push_back({newRow, newCol});
                 dfs(grid, validWords, {newRow, newCol}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, newWordMultiplier, maxSwaps, path, swappedTiles, scoreNumber);
                 path.pop_back();
             }
-            
+
             // Restore the original value of the current cell
             visited[newRow][newCol] = false;
             grid[newRow][newCol] = temp;
         }
     }
-    
+
     // Check if there are remaining swaps available
     if (maxSwaps > 0) {
         // Iterate over the adjacent cells and the current cell itself
@@ -150,21 +125,21 @@ std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber
             for (int dc = -1; dc <= 1; ++dc) {
                 int newRow = currCell.row + dr;
                 int newCol = currCell.col + dc;
-                
+
                 // Check if the new cell is within the grid bounds and hasn't been visited before
                 if (isValidCell(newRow, newCol) && !visited[newRow][newCol]) {
                     char temp = grid[newRow][newCol];
-                    
+
                     // Perform a swap and recursively traverse to the next cell only if the prefix is a prefix of at least one word
                     for (char letter = 'a'; letter <= 'z'; ++letter) {
                         std::string newPrefix = prefix + letter;
-                        
+
                         // Check if the new prefix is a prefix of any word in the set
                         bool isPrefix = false;
                         if (validWords.searchPrefix(newPrefix)) {
                             isPrefix = true;
                         }
-                        
+
                         // Perform a swap and recursively traverse to the next cell only if the prefix is a prefix of at least one word
                         if (isPrefix) {
                             visited[newRow][newCol] = true;
@@ -187,7 +162,7 @@ std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber
 void initializeValidWordTrie(Trie& validWords)
 {
     std::istringstream wordStream(WORD_LIST);  // Use a string stream to read from the word list string
-    
+
     std::string word;
     while (std::getline(wordStream, word)) {
         validWords.insertWord(word);
@@ -196,12 +171,12 @@ void initializeValidWordTrie(Trie& validWords)
 
 void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers)
 {
-    //std::map<char, int> 
+    //std::map<char, int>
     letterValues = {
         {'a', 1},
         {'b', 4},
         {'c', 5},
-        {'d', 3}, 
+        {'d', 3},
         {'e', 1},
         {'f', 5},
         {'g', 3},
@@ -225,9 +200,9 @@ void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector
         {'y', 4},
         {'z', 8}
     };
-    
+
     // Letter multipliers
-    //std::vector<std::vector<int>> 
+    //std::vector<std::vector<int>>
     letterMultipliers = {
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1},
@@ -235,9 +210,9 @@ void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector
         {1, 1, 1, 1, 1},
         {1, 1, 1, 1, 1}
     };
-    
+
     // Word multipliers
-    //std::vector<std::vector<bool>> 
+    //std::vector<std::vector<bool>>
     wordMultipliers = {
         {0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0},
@@ -249,12 +224,12 @@ void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector
 
 //topWords is a minheap
 void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid, int &maxSwaps, Trie& validWords, std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, int scoreNumber) {
-    
+
     std::priority_queue<Word> topWords;
     std::vector<std::vector<bool>> visited(SIZE, std::vector<bool>(SIZE, false));
     std::vector<std::pair<int, int>> path;  // Stores the path through the grid
     std::vector<std::pair<std::pair<int, int>, char>> swappedTiles;  // Stores the swapped tiles
-    
+
     std::cout << "Solving...\n";
 
     // Perform DFS traversal starting from each cell in the grid
@@ -265,7 +240,7 @@ void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid
             path.push_back({row, col});
             dfs(grid, validWords, startCell, std::string(1, grid[row][col]), topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps, path, swappedTiles, scoreNumber);
             visited[row][col] = false;
-            path.pop_back(); 
+            path.pop_back();
         }
     }
 

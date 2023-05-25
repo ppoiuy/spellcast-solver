@@ -18,7 +18,9 @@ private:
 
 public:
     Trie();
+    ~Trie();
 
+    void destroyNode(TrieNode* node);
     void insertWord(const std::string& word);
     bool searchWord(const std::string& word);
     bool searchPrefix(const std::string& prefix);

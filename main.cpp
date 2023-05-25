@@ -15,6 +15,7 @@
 #include <QHeaderView>
 #include <QTableWidgetItem>
 #include <QBrush>
+#include <QCheckBox>
 #include <vector>
 #include <unordered_map>
 #include "solver.h"
@@ -23,7 +24,7 @@
 class WordDetailsWindow : public QDialog
 {
 public:
-    WordDetailsWindow(const Word& word, QWidget* parent = nullptr) : QDialog(parent)
+    WordDetailsWindow(const Word& word, QWidget* parent = nullptr) : QDialog(parent), showArrows(showArrows)
     {
         setFixedSize(224, 220); // Set a static window size
 
@@ -87,48 +88,47 @@ public:
                 {
                     item->setBackground(Qt::green);
                     item->setFont(QFont("Arial", 10, QFont::Bold)); // Set path tiles font to bold
-
-                    // Add arrow indicator for the path direction
-                    if (word.path.size() > 1)
+                }
+                // Add arrow indicator for the path direction
+                if (showArrows && isPath && word.path.size() > 1)
+                {
+                    const auto& currentCoords = std::make_pair(i, j);
+                    int currentIndex = -1;
+                    for (size_t k = 0; k < word.path.size(); ++k)
                     {
-                        const auto& currentCoords = std::make_pair(i, j);
-                        int currentIndex = -1;
-                        for (size_t k = 0; k < word.path.size(); ++k)
+                        if (word.path[k] == currentCoords)
                         {
-                            if (word.path[k] == currentCoords)
-                            {
-                                currentIndex = static_cast<int>(k);
-                                break;
-                            }
+                            currentIndex = static_cast<int>(k);
+                            break;
                         }
+                    }
 
-                        if (currentIndex != -1)
-                        {
-                            const auto& nextCoords = word.path[currentIndex + 1];
-                            int dx = nextCoords.first - currentCoords.first;
-                            int dy = nextCoords.second - currentCoords.second;
+                    if (currentIndex != -1)
+                    {
+                        const auto& nextCoords = word.path[currentIndex + 1];
+                        int dx = nextCoords.first - currentCoords.first;
+                        int dy = nextCoords.second - currentCoords.second;
 
-                            QString arrowText;
+                        QString arrowText;
 
-                            if (dx == -1 && dy == 0)
-                                arrowText = "↑";
-                            else if (dx == 1 && dy == 0)
-                                arrowText = "↓";
-                            else if (dx == 0 && dy == -1)
-                                arrowText = "←";
-                            else if (dx == 0 && dy == 1)
-                                arrowText = "→";
-                            else if (dx == -1 && dy == -1)
-                                arrowText = "↖";
-                            else if (dx == -1 && dy == 1)
-                                arrowText = "↗";
-                            else if (dx == 1 && dy == -1)
-                                arrowText = "↙";
-                            else if (dx == 1 && dy == 1)
-                                arrowText = "↘";
+                        if (dx == -1 && dy == 0)
+                            arrowText = "↑";
+                        else if (dx == 1 && dy == 0)
+                            arrowText = "↓";
+                        else if (dx == 0 && dy == -1)
+                            arrowText = "←";
+                        else if (dx == 0 && dy == 1)
+                            arrowText = "→";
+                        else if (dx == -1 && dy == -1)
+                            arrowText = "↖";
+                        else if (dx == -1 && dy == 1)
+                            arrowText = "↗";
+                        else if (dx == 1 && dy == -1)
+                            arrowText = "↙";
+                        else if (dx == 1 && dy == 1)
+                            arrowText = "↘";
 
-                            item->setText(item->text() + arrowText);
-                        }
+                        item->setText(item->text() + arrowText);
                     }
                 }
 
@@ -151,6 +151,8 @@ public:
 
         setLayout(layout);
     }
+private:
+    bool showArrows; // Added member variable to store the checkbox state
 };
 
 class SquareTextBox : public QLineEdit
@@ -247,6 +249,12 @@ public:
         connect(solveButton, &QPushButton::clicked, this, &GridWindow::runSolver);
         layout->addWidget(solveButton, 5, 0, 1, 5, Qt::AlignBottom | Qt::AlignLeft); // Position solve button
 
+        // Create the arrow display toggle button
+        QCheckBox* arrowToggle = new QCheckBox("Show Grid Arrows", this);
+        arrowToggle->setChecked(true); // Set the default state to checked
+        connect(arrowToggle, &QCheckBox::stateChanged, this, &GridWindow::toggleArrowDisplay);
+        layout->addWidget(arrowToggle, 7, 0, 1, 5, Qt::AlignBottom | Qt::AlignRight); // Position solve button
+
         // List widget to display the elements
         listWidget = new QListWidget(this);
         layout->addWidget(listWidget, 0, 5, 8, 1);
@@ -265,6 +273,11 @@ private slots:
     {
         // Update the grid matrix with the text from the text box
         grid[row][col] = text.isEmpty() ? ' ' : text.at(0).toUpper().toLatin1();
+    }
+
+    void toggleArrowDisplay(int state)
+    {
+        bool showArrows = (state == Qt::Checked);
     }
 
     void updateGemValue(int value)
@@ -424,6 +437,8 @@ private:
 
     QPushButton* cycleButtons[5][5];
     QPushButton* multiplierButtons[5][5];
+
+    bool showArrows;
 
     QListWidget* listWidget;
 
