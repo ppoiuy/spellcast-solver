@@ -21,7 +21,7 @@ Note: the same word can be generated multiple times, but with different paths/sw
 
 Click on an element in the list on the right to see details
 
-checkbox toggles to show if arrows are printed in the details grid
+Checkbox toggles to show if arrows are printed in the details grid
 
 
 
