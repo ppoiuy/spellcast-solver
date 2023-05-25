@@ -230,7 +230,7 @@ void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid
     std::vector<std::pair<int, int>> path;  // Stores the path through the grid
     std::vector<std::pair<std::pair<int, int>, char>> swappedTiles;  // Stores the swapped tiles
 
-    std::cout << "Solving...\n";
+    //std::cout << "Solving...\n";
 
     // Perform DFS traversal starting from each cell in the grid
     for (int row = 0; row < SIZE; ++row) {

@@ -16,6 +16,7 @@
 #include <QTableWidgetItem>
 #include <QBrush>
 #include <QCheckBox>
+#include <QRegularExpression>
 #include <vector>
 #include <unordered_map>
 #include "solver.h"
@@ -24,14 +25,18 @@
 class WordDetailsWindow : public QDialog
 {
 public:
-    WordDetailsWindow(const Word& word, QWidget* parent = nullptr) : QDialog(parent), showArrows(showArrows)
+    WordDetailsWindow(const Word& word, QWidget* parent = nullptr) : QDialog(parent), showArrows(true), word(word)
     {
-        setFixedSize(224, 220); // Set a static window size
+        setFixedSize(224, 246); // Set a static window size
+
+        // Window title is word - value
+        setWindowTitle(QString::fromStdString(word.word) + " - " + QString::number(word.value));
 
         QVBoxLayout* layout = new QVBoxLayout(this);
 
         // Create and set up the grid table
-        QTableWidget* gridTable = new QTableWidget(this);
+        //QTableWidget*
+        gridTable = new QTableWidget(this);
         int gridSize = word.grid.size();
         gridTable->setRowCount(gridSize);
         gridTable->setColumnCount(gridSize);
@@ -89,6 +94,13 @@ public:
                     item->setBackground(Qt::green);
                     item->setFont(QFont("Arial", 10, QFont::Bold)); // Set path tiles font to bold
                 }
+                // Add visual indicator for the first tile in the path
+                if (isPath && word.path.size() > 0 && word.path[0].first == i && word.path[0].second == j)
+                {
+                    item->setBackground(QColor(0, 200, 0));
+                    item->setForeground(QBrush(Qt::white)); // Set the first tile text color to white
+                    item->setFont(QFont("Arial", 10, QFont::Bold)); // Set the first tile font to bold
+                }
                 // Add arrow indicator for the path direction
                 if (showArrows && isPath && word.path.size() > 1)
                 {
@@ -108,27 +120,8 @@ public:
                         const auto& nextCoords = word.path[currentIndex + 1];
                         int dx = nextCoords.first - currentCoords.first;
                         int dy = nextCoords.second - currentCoords.second;
-
-                        QString arrowText;
-
-                        if (dx == -1 && dy == 0)
-                            arrowText = "↑";
-                        else if (dx == 1 && dy == 0)
-                            arrowText = "↓";
-                        else if (dx == 0 && dy == -1)
-                            arrowText = "←";
-                        else if (dx == 0 && dy == 1)
-                            arrowText = "→";
-                        else if (dx == -1 && dy == -1)
-                            arrowText = "↖";
-                        else if (dx == -1 && dy == 1)
-                            arrowText = "↗";
-                        else if (dx == 1 && dy == -1)
-                            arrowText = "↙";
-                        else if (dx == 1 && dy == 1)
-                            arrowText = "↘";
-
-                        item->setText(item->text() + arrowText);
+                        QString arrowCharacter = getArrowCharacter(dx, dy);
+                        item->setText(item->text() + arrowCharacter);
                     }
                 }
 
@@ -149,10 +142,107 @@ public:
         valueLabel->setFont(QFont("Arial", 12));
         layout->addWidget(valueLabel);
 
+        // Create the arrow display toggle button
+        QCheckBox* arrowCheckBox = new QCheckBox("Show Grid Arrows", this);
+        arrowCheckBox->setChecked(showArrows); // Set the default state to checked
+        connect(arrowCheckBox, &QCheckBox::toggled, this, &WordDetailsWindow::toggleArrows);
+        layout->addWidget(arrowCheckBox); // add checkbox
+
         setLayout(layout);
     }
 private:
+    QTableWidget* gridTable;
     bool showArrows; // Added member variable to store the checkbox state
+    Word word;
+    QString getArrowCharacter(int dx, int dy)
+    {
+        QString arrowText;
+        if (dx == -1 && dy == 0)
+            arrowText = "↑";
+        else if (dx == 1 && dy == 0)
+            arrowText = "↓";
+        else if (dx == 0 && dy == -1)
+            arrowText = "←";
+        else if (dx == 0 && dy == 1)
+            arrowText = "→";
+        else if (dx == -1 && dy == -1)
+            arrowText = "↖";
+        else if (dx == -1 && dy == 1)
+            arrowText = "↗";
+        else if (dx == 1 && dy == -1)
+            arrowText = "↙";
+        else if (dx == 1 && dy == 1)
+            arrowText = "↘";
+        return arrowText;
+    }
+private slots:
+    void toggleArrows()
+    {
+        showArrows = !showArrows;
+
+        // only update current window grid
+        QCheckBox* checkBox = qobject_cast<QCheckBox*>(sender());
+        if (checkBox)
+        {
+            // Refresh the table to update arrow visibility
+            int gridSize = word.grid.size();
+            for (int i = 0; i < gridSize; ++i)
+            {
+                for (int j = 0; j < gridSize; ++j)
+                {
+                    QTableWidgetItem* item = gridTable->item(i, j);
+                    if (item)
+                    {
+                        QString text = item->text();
+                        bool isPath = false;
+                        // Check if the current coordinates are in the path vector
+                        for (const auto& pathCoords : word.path)
+                        {
+                            if (pathCoords.first == i && pathCoords.second == j)
+                            {
+                                isPath = true;
+                                break;
+                            }
+                        }
+                        if (showArrows && isPath && word.path.size() > 1)
+                        {
+                            const auto& currentCoords = std::make_pair(i, j);
+                            int currentIndex = -1;
+
+                            // Find the index of the current coordinates in the word's path
+                            for (size_t k = 0; k < word.path.size(); ++k)
+                            {
+                                if (word.path[k] == currentCoords)
+                                {
+                                    currentIndex = static_cast<int>(k);;
+                                    break;
+                                }
+                            }
+
+                            if (currentIndex != -1)
+                            {
+                                const auto& nextCoords = word.path[currentIndex + 1];
+                                int dx = nextCoords.first - currentCoords.first;
+                                int dy = nextCoords.second - currentCoords.second;
+
+                                QString arrowCharacter = getArrowCharacter(dx, dy);
+                                text.append(arrowCharacter);
+                            }
+                        }
+                        else
+                        {
+                            text.remove(QRegularExpression("[\u2190-\u2199]")); // Remove arrow characters
+                        }
+
+                        item->setText(text);
+                    }
+                }
+            }
+
+        }
+
+
+    }
 };
 
 class SquareTextBox : public QLineEdit
@@ -249,15 +339,36 @@ public:
         connect(solveButton, &QPushButton::clicked, this, &GridWindow::runSolver);
         layout->addWidget(solveButton, 5, 0, 1, 5, Qt::AlignBottom | Qt::AlignLeft); // Position solve button
 
+        // Create a QLabel for the "Number of Scores" label
+        QLabel* numScoresLabel = new QLabel("# of scores:");
+        layout->addWidget(numScoresLabel, 7, 3, 1, 1, Qt::AlignBottom | Qt::AlignRight); // Position at the bottom left with left alignment
+
         // Create the arrow display toggle button
-        QCheckBox* arrowToggle = new QCheckBox("Show Grid Arrows", this);
-        arrowToggle->setChecked(true); // Set the default state to checked
-        connect(arrowToggle, &QCheckBox::stateChanged, this, &GridWindow::toggleArrowDisplay);
-        layout->addWidget(arrowToggle, 7, 0, 1, 5, Qt::AlignBottom | Qt::AlignRight); // Position solve button
+        QLineEdit* scoreNumberLineEdit = new QLineEdit();
+        scoreNumberLineEdit->setValidator(new QIntValidator()); // Only accept integer values
+        scoreNumberLineEdit->setText("50"); // Set default text
+
+        // Set the maximum width and height for the text box
+        scoreNumberLineEdit->setMaximumWidth(40);
+        scoreNumberLineEdit->setMaximumHeight(20);
+
+        QObject::connect(scoreNumberLineEdit, &QLineEdit::textChanged, this, [=](const QString& text) {
+            bool conversionOk;
+            int newScoreNumber = text.toInt(&conversionOk);
+            if (conversionOk) {
+                scoreNumber = newScoreNumber;
+            }
+        });
+        layout->addWidget(scoreNumberLineEdit, 7, 4, 1, 1, Qt::AlignBottom); // Position text box
+
+        QLabel *listTitleLabel = new QLabel("Highest Value Words", this);
+        listTitleLabel->setAlignment(Qt::AlignCenter);
+        listTitleLabel->setFont(QFont("Arial", 12, QFont::Bold));
+        layout->addWidget(listTitleLabel, 0, 5, 1, 1);
 
         // List widget to display the elements
         listWidget = new QListWidget(this);
-        layout->addWidget(listWidget, 0, 5, 8, 1);
+        layout->addWidget(listWidget, 1, 5, 10, 1);
 
         // Connect itemClicked signal to showWordDetails slot
         connect(listWidget, &QListWidget::itemClicked, this, &GridWindow::showWordDetails);
@@ -273,11 +384,6 @@ private slots:
     {
         // Update the grid matrix with the text from the text box
         grid[row][col] = text.isEmpty() ? ' ' : text.at(0).toUpper().toLatin1();
-    }
-
-    void toggleArrowDisplay(int state)
-    {
-        bool showArrows = (state == Qt::Checked);
     }
 
     void updateGemValue(int value)
@@ -328,7 +434,6 @@ private slots:
         }
 
         int maxSwaps = int(gemsValue/3);
-        int scoreNumber = 50;
         topWordsVect.clear();
         solve(topWordsVect, gridMatrix, maxSwaps, validWords, letterValues, letterMultipliers, wordMultipliers, scoreNumber);
 
@@ -432,6 +537,7 @@ private:
     std::vector<std::vector<int>> letterMultipliers;
     std::vector<std::vector<bool>> wordMultipliers;
     std::vector<Word> topWordsVect;
+    int scoreNumber = 50;
     int gemsValue = 3;
     QLabel* gemValueLabel;
 
@@ -478,7 +584,13 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.0");
+    window.setWindowTitle("SpellCast Solver v1.2");
+
+    // Set the fixed window size
+    const int WINDOW_WIDTH = 680;
+    const int WINDOW_HEIGHT = 336;
+    window.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
     window.show();
 
     return app.exec();
