@@ -1,6 +1,10 @@
 # spellcastsolver
 Valid Word Finder for Discord's SpellCast Game
 
+
+
+
+
 How to use:
 
 Fill in text boxes with letters to correspond with SpellCast game grid
