@@ -31,20 +31,7 @@ Checkbox toggles to show if arrows are printed in the details grid
 
 To-do: 
 
-FIX ARROW TOGGLING
-
-header title for list (Highest Value Words)
-
-highlight first tile in path
-
-change window text of opened windows to the word and value
-
-input for number of scores in list
-
 gem tracker and net gem change 
-
 (annoying to do, maybe toggle button between the other 2 buttons for each tile?)
-
-exit other windows when opening a window?
 
 scrape 1 letter words and banned "profanity" words from word list
