@@ -30,7 +30,7 @@ Requires
 
 ---
 
-lol how (TL doesnt seem to stack with itself, only one instance of TL is multiplied: 4*3*2=24)
+lol how (TL doesnt seem to stack with itself, only one instance of TL is multiplied: 4x3x2=24)
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
 
