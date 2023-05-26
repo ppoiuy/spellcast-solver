@@ -26,6 +26,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 
 ## To-Do
 
+- Change "# of scores" to "# of words"
 - Set tool tips for each button/text box
 - Use larger, more accurate word list
 - Scrape 1-letter words and banned "profanity" words from the word list.
