@@ -24,11 +24,11 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
 - Warning text if no DL or TL multiplier set
-- Custom multiplier options for adventure mode cus look at that screenshot below lol
+- Custom multiplier options for adventure mode cus look at that screenshot below
 
 ---
 
-lol (stacking multipliers is additive e.g. D with DL + TL + TL is 3x(2+3+3))
+(stacking multipliers is additive)
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
 
