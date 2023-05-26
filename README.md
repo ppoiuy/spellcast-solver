@@ -19,6 +19,7 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 
 There are several improvements planned for SpellCastSolver:
 
+- Darker green first tile in details grids
 - Scrape 1-letter words and banned "profanity" words from the word list.
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
