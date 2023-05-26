@@ -1,5 +1,5 @@
 # spellcastsolver
-Word Finder for Discord's SpellCast Game
+Word finder for Discord's SpellCast game
 
 spellcastsolver is a tool designed to help find valid words in Discord's SpellCast game. It provides a user-friendly interface for inputting letters, modifying tile values, and generating a list of the best words based on their value.
 
