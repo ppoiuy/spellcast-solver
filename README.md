@@ -18,6 +18,10 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
    - Red: Swapped tiles
 7. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
 8. Click the reset buttons to reset the button states of each tile.
+![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/51ab8370-c8e5-4984-af5c-1c59c577e5e0)
+![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/f6c73003-541c-498c-b0eb-2ae1471b5bb7)
+
+
 
 
 ## To-Do
