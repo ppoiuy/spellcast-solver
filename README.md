@@ -17,8 +17,8 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
    - Dark Green: First tile in the path
    - Red: Swapped tiles
 7. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
+8. Click the reset buttons to reset the button states of each tile.
 
-Click the reset buttons to reset the button states of each tile.
 
 ## To-Do
 
