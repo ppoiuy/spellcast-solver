@@ -20,14 +20,12 @@ Requires
 
 ## To-Do
 
-- Darker green first tile in detail grids
-- Change (Freezes) text for 3 swaps to (Very Slow)
 - Set tool tips for each button/text box
 - Use larger, more accurate word list
 - Scrape 1-letter words and banned "profanity" words from the word list.
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
-- Warning window if no DL or TL multiplier set
+- Warning text if no DL or TL multiplier set
 - Custom multiplier options for adventure mode cus look at that screenshot below lmaooooooooooooooo
 
 ---
