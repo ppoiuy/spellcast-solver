@@ -1,7 +1,7 @@
 # spellcastsolver
 Word finder for Discord's SpellCast game
 
-spellcastsolver is a tool designed to help find valid words in Discord's SpellCast game. It provides a user-friendly interface for inputting letters, modifying tile values, and generating a list of the best words based on their value.
+Allows for inputting letters, modifying tile values, and generating a list of the best words based on their value, showing each path and which letters to swap.
 
 ## How to Use
 
@@ -13,8 +13,11 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 4. Click the "Solve" button to generate a list of the best words sorted by their value.
    - Note: The same word may appear multiple times in the list, but each list element has different paths or swapped tiles.
 5. To view more details about a specific word, click on the word in the list on the right.
-6. Click the reset buttons to reset the button states of each tile.
-7. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
+   - Green: Path to take
+   - Dark Green: First tile in the path
+   - Red: Swapped tiles
+7. Click the reset buttons to reset the button states of each tile.
+8. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
 
 ## To-Do
 
