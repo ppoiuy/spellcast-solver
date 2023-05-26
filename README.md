@@ -16,8 +16,6 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 6. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
 7. Click the reset buttons to reset the button states of each tile.
 
-Requires 
-
 ## To-Do
 
 - Set tool tips for each button/text box
