@@ -25,7 +25,7 @@ Requires
 - Scrape 1-letter words and banned "profanity" words from the word list.
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
-- Warning window if no DL or TL multiplier set (double word can be off)
+- Warning window if no DL or TL multiplier set
 - Custom multiplier options for adventure mode cus look at that screenshot below lmaooooooooooooooo
 
 ---
