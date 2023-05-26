@@ -33,10 +33,6 @@ To-do:
 
 scrape 1 letter words and banned "profanity" words from word list
 
-reset buttons to reset all buttons or reset text boxes
-
-add toggle for limited DL/TL or limited 2x tiles because od adventure mode
-
 gem tracker and net gem change in list
 (toggle button under the other 2 buttons for each tile)
 
