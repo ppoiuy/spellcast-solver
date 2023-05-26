@@ -15,6 +15,8 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 6. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
 7. Click the reset buttons to reset the button states of each tile.
 
+Requires 
+
 ## To-Do
 
 - Darker green first tile in detail grids
@@ -23,11 +25,12 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 - Scrape 1-letter words and banned "profanity" words from the word list.
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
+- Warning window if no DL or TL multiplier set (double word can be off)
 - Custom multiplier options for adventure mode cus look at that screenshot below lmaooooooooooooooo
 
 ---
 
-lol how
+lol how (TL doesnt seem to stack with itself, only one instance of TL is multiplied: 4*3*2=24)
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
 
