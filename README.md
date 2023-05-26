@@ -17,7 +17,7 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 
 ## To-Do
 
-- Darker green first tile in details grids
+- Darker green first tile in detail grids
 - Set tool tips for each button/text box
 - Use larger, more accurate word list
 - Scrape 1-letter words and banned "profanity" words from the word list.
