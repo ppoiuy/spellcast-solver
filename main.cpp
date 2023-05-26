@@ -97,7 +97,7 @@ public:
                 // Add visual indicator for the first tile in the path
                 if (isPath && word.path.size() > 0 && word.path[0].first == i && word.path[0].second == j)
                 {
-                    item->setBackground(QColor(0, 200, 0));
+                    item->setBackground(QColor(0, 160, 0));
                     item->setForeground(QBrush(Qt::white)); // Set the first tile text color to white
                     item->setFont(QFont("Arial", 10, QFont::Bold)); // Set the first tile font to bold
                 }
@@ -417,7 +417,7 @@ private slots:
 
         if ((int)(value/3) >= 3)
         {
-            gemValueLabel->setText(gemValueLabel->text() + " (Freezes)");
+            gemValueLabel->setText(gemValueLabel->text() + " (Very Slow)");
         }
         else if ((int)(value/3) >= 2)
         {
@@ -429,7 +429,7 @@ private slots:
         }
         else if ((int)(value/3) >= 0)
         {
-            gemValueLabel->setText(gemValueLabel->text() + " (Instant)");
+            gemValueLabel->setText(gemValueLabel->text() + " (Very Fast)");
         }
 
         if (value >= 9)
@@ -640,7 +640,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.2");
+    window.setWindowTitle("SpellCast Solver v1.0");
+    // v1.0
 
     // Set the fixed window size
     const int WINDOW_WIDTH = 680;
