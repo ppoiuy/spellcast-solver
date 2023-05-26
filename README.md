@@ -24,7 +24,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
 - Warning text if no DL or TL multiplier set
-- Custom multiplier options for adventure mode cus look at that screenshot below lmaooooooooooooooo
+- Custom multiplier options for adventure mode cus look at that screenshot below lol
 
 ---
 
