@@ -28,7 +28,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 
 ---
 
-lol how (stacking multipliers is additive e.g. D with DL + TL + TL is 3x(2+3+3))
+lol (stacking multipliers is additive e.g. D with DL + TL + TL is 3x(2+3+3))
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
 
