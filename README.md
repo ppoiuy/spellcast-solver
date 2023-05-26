@@ -29,7 +29,7 @@ For any suggestions, feedback, or issues, please feel free to contribute to the 
 
 ---
 
-how am i supposed to account for this wtf
+lol how
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
 
