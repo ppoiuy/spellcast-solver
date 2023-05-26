@@ -17,16 +17,12 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 
 ## To-Do
 
-There are several improvements planned for SpellCastSolver:
-
 - Darker green first tile in details grids
 - Scrape 1-letter words and banned "profanity" words from the word list.
+- Use larger, more accurate word list
 - Implement a gem tracker and net gem change in the generated word list.
    - Consider adding a toggle button for each tile under the existing buttons.
-
-Please note that these features are currently under development and will be added in future updates.
-
-For any suggestions, feedback, or issues, please feel free to contribute to the project or contact the repository owner.
+- Custom multiplier options for adventure mode cus look at that screenshot below lmaooooooooooooooo
 
 ---
 
