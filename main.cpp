@@ -142,7 +142,7 @@ public:
         valueLabel->setFont(QFont("Arial", 12));
         layout->addWidget(valueLabel);
 
-        // Create the arrow display toggle button
+        // Create the arrow display toggle checkbox
         QCheckBox* arrowCheckBox = new QCheckBox("Show Grid Arrows", this);
         arrowCheckBox->setChecked(showArrows); // Set the default state to checked
         connect(arrowCheckBox, &QCheckBox::toggled, this, &WordDetailsWindow::toggleArrows);
@@ -277,7 +277,7 @@ protected:
 class GridWindow : public QWidget
 {
 public:
-    GridWindow(QWidget* parent = nullptr) : QWidget(parent)
+    GridWindow(QWidget* parent = nullptr) : QWidget(parent), limitMultipliers(true)
     {
         QGridLayout* layout = new QGridLayout(this);
         layout->setSpacing(1);
@@ -293,6 +293,7 @@ public:
                 tileLayout->setSpacing(0);
 
                 SquareTextBox* textBox = new SquareTextBox(tileWidget);
+                textBox->setObjectName(QString("textBox_%1_%2").arg(row).arg(col));
                 tileLayout->addWidget(textBox, 0, 0); // Position text box
 
                 QPushButton* cycleButton = new QPushButton("SL", tileWidget);
@@ -340,7 +341,7 @@ public:
         layout->addWidget(solveButton, 5, 0, 1, 5, Qt::AlignBottom | Qt::AlignLeft); // Position solve button
 
         // Create a QLabel for the "Number of Scores" label
-        QLabel* numScoresLabel = new QLabel("# of scores:");
+        QLabel* numScoresLabel = new QLabel("# of scores: ");
         layout->addWidget(numScoresLabel, 7, 3, 1, 1, Qt::AlignBottom | Qt::AlignRight); // Position at the bottom left with left alignment
 
         // Create the arrow display toggle button
@@ -372,6 +373,27 @@ public:
 
         // Connect itemClicked signal to showWordDetails slot
         connect(listWidget, &QListWidget::itemClicked, this, &GridWindow::showWordDetails);
+
+        // Create the arrow display toggle checkmark
+        QCheckBox* limitMultipliersCheckBox = new QCheckBox("Limit Multipliers", this);
+        limitMultipliersCheckBox->setChecked(limitMultipliers); // Set the default state to checked
+        connect(limitMultipliersCheckBox, &QCheckBox::toggled, this, &GridWindow::toggleLimitMultipliers);
+        layout->addWidget(limitMultipliersCheckBox, 5, 3, 1, 5); // add checkbox
+
+        // reset multipliers
+        QPushButton *resetMultButton = new QPushButton("Reset Multipliers",this);
+        connect(resetMultButton, &QPushButton::clicked, this, &GridWindow::resetCycleButtons);
+        connect(resetMultButton, &QPushButton::clicked, this, &GridWindow::resetMultiplierButtons);
+        //resetMultButton->setFixedWidth(100);
+        layout->addWidget(resetMultButton, 6, 3, 1, 1);
+
+        // reset grid and multipliers
+        QPushButton *resetGridButton = new QPushButton("Reset Grid",this);
+        connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetCycleButtons);
+        connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetMultiplierButtons);
+        connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetGrid);
+        resetGridButton->setFixedWidth(65);
+        layout->addWidget(resetGridButton, 6, 4, 1, 1);
 
         setLayout(layout);
 
@@ -420,6 +442,17 @@ private slots:
         }
     }
 
+    void toggleLimitMultipliers()
+    {
+        limitMultipliers = !limitMultipliers;
+        // reset buttons
+        if (limitMultipliers)
+        {
+            resetCycleButtons();
+            resetMultiplierButtons();
+        }
+    }
+
     void runSolver()
     {
         std::vector<std::vector<char>> gridMatrix;
@@ -459,7 +492,10 @@ private slots:
             int col = button->property("col").toInt();
             int state = button->property("state").toInt();
 
-            resetCycleButtons();
+            if (limitMultipliers)
+            {
+                resetCycleButtons();
+            }
 
             state = (state + 1) % 3; // Cycle between 0, 1, and 2 (SL, DL, TL)
 
@@ -497,7 +533,10 @@ private slots:
             int col = button->property("col").toInt();
             int state = button->property("state").toInt();
 
-            resetMultiplierButtons();
+            if (limitMultipliers)
+            {
+                resetMultiplierButtons();
+            }
 
             state = (state + 1) % 2; // Cycle between 0 and 1 (1x, 2x)
 
@@ -545,6 +584,7 @@ private:
     QPushButton* multiplierButtons[5][5];
 
     bool showArrows;
+    bool limitMultipliers;
 
     QListWidget* listWidget;
 
@@ -574,6 +614,22 @@ private:
                 button->setText("1x");
                 button->setStyleSheet(""); // Reset button color
                 wordMultipliers[row][col] = false;
+            }
+        }
+    }
+
+    void resetGrid()
+    {
+        for (int row = 0; row < 5; ++row)
+        {
+            for (int col = 0; col < 5; ++col)
+            {
+                QString objectName = QString("textBox_%1_%2").arg(row).arg(col);
+                SquareTextBox* textBox = findChild<SquareTextBox*>(objectName);
+                if (textBox)
+                {
+                    textBox->clear();
+                }
             }
         }
     }
