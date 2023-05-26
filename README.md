@@ -13,7 +13,7 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
    - Note: The same word may appear multiple times in the list, but with different paths or swapped tiles.
 5. To view more details about a specific word, click on the word in the list on the right.
 6. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
-7. Click the reset buttons to reset the buttons for each tile.
+7. Click the reset buttons to reset the button states of each tile.
 
 ## To-Do
 
