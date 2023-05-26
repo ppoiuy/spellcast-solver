@@ -8,7 +8,7 @@ spellcastsolver is a tool designed to help find valid words in Discord's SpellCa
 1. Fill in the text boxes with letters that correspond to the SpellCast game grid.
 2. Use the buttons located above each text box to change a tile's value. You can set it to DL (Double Letter), TL (Triple Letter), or 2x (Double Word).
 3. Adjust the slider to represent the gem number and calculate the number of swaps.
-   - Note: Avoid using 9+ gems with only 3 available swaps, as it may take more than 5 minutes to generate words.
+   - Note: Avoid using 9+ gems with only 3 available swaps, as it may take more than 5 minutes to generate words. But, set # of scores to a much higher number (200+) if you use want to 3 swaps to get different words in this list.
 4. Click the "Solve" button to generate a list of the best words sorted by their value.
    - Note: The same word may appear multiple times in the list, but with different paths or swapped tiles.
 5. To view more details about a specific word, click on the word in the list on the right.
