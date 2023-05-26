@@ -40,4 +40,8 @@ add toggle for limited DL/TL or limited 2x tiles because od adventure mode
 gem tracker and net gem change in list
 (toggle button under the other 2 buttons for each tile)
 
+lol
+![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
+
+
 
