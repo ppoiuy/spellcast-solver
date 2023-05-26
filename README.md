@@ -1,40 +1,32 @@
 # spellcastsolver
-Valid Word Finder for Discord's SpellCast Game
+Word Finder for Discord's SpellCast Game
 
+SpellCastSolver is a tool designed to help you find valid words in Discord's SpellCast game. It provides a user-friendly interface for inputting letters, modifying tile values, and generating a list of the best words based on their value.
 
+## How to Use
 
+1. Fill in the text boxes with letters that correspond to the SpellCast game grid.
+2. Use the buttons located above each text box to change a tile's value. You can set it to DL (Double Letter), TL (Triple Letter), or 2x (Double Word).
+3. Adjust the slider to represent the gem number and calculate the number of swaps.
+   - Note: Avoid using 9+ gems with only 3 available swaps, as it may take more than 5 minutes to generate words.
+4. Click the "Solve" button to generate a list of the best words sorted by their value.
+   - Note: The same word may appear multiple times in the list, but with different paths or swapped tiles.
+5. To view more details about a specific word, click on the word in the list on the right.
+6. Toggle the checkbox to display arrows in the details grid, indicating the path of the word.
 
+## To-Do
 
-How to use:
+There are several improvements planned for SpellCastSolver:
 
-Fill in text boxes with letters to correspond with SpellCast game grid
+- Scrape 1-letter words and banned "profanity" words from the word list.
+- Implement a gem tracker and net gem change in the generated word list.
+   - Consider adding a toggle button for each tile under the existing buttons.
 
-Buttons above each text box to change a tile to DL or TL, or 2x (double word value)
+Please note that these features are currently under development and will be added in future updates.
 
-Slider represents gem number to calculate number of swaps
+For any suggestions, feedback, or issues, please feel free to contribute to the project or contact the repository owner.
 
-Note: avoid using 9+ gems/3 available swaps because it will take 5+ minutes to generate words
-
-Click solve to generate list of best (highest value) words
-
-Note: the same word can be generated multiple times, but with different paths/swapped tiles
-
-Click on an element in the list on the right to see details
-
-Checkbox toggles to show if arrows are printed in the details grid
-
-
-
-
-
-
-
-To-do: 
-
-scrape 1 letter words and banned "profanity" words from word list
-
-gem tracker and net gem change in list
-(toggle button under the other 2 buttons for each tile)
+---
 
 how am i supposed to account for this wtf
 
