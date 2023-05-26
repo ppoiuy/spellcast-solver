@@ -9,7 +9,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 1. Fill in the text boxes with letters that correspond to the SpellCast game grid.
 2. Use the buttons located above each text box to change a tile's value. You can set it to DL (Double Letter), TL (Triple Letter), or 2x (Double Word).
 3. Adjust the slider to represent the gem number to calculate the number of swaps.
-   - Note: Avoid using 9+ gems with only 3 available swaps, as it may take more than 3 minutes to generate words. CPU intensive for 2+ swaps.
+   - Note: Avoid using 9+ gems with only 3 available swaps, as it may take a few minutes to generate words. CPU intensive for 2+ swaps.
 4. Click the "Solve" button to generate a list of the best words sorted by their value.
    - Note: The same word may appear multiple times in the list, but each list element has different paths or swapped tiles.
 5. To view more details about a specific word, click on the word in the list on the right.
