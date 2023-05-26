@@ -31,7 +31,11 @@ Checkbox toggles to show if arrows are printed in the details grid
 
 To-do: 
 
+scrape 1 letter words and banned "profanity" words from word list
+
+reset buttons to reset all buttons or reset text boxes
+
 gem tracker and net gem change 
 (annoying to do, maybe toggle button between the other 2 buttons for each tile?)
 
-scrape 1 letter words and banned "profanity" words from word list
+
