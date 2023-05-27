@@ -36,6 +36,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 - Custom multiplier options for adventure mode cus look at that screenshot below
 - Oversight where the first tile in a word isn't swapped (the 8 directions are checked for swaps, but not the first tile itself. algorithm change would be checking the swap on each tile itself rather than surrounding directions?). Fixing this will make it take a little longer to run and make 3 swap checks take even longer.
 - Change grid display to show outlines on swapped tiles so that the first tile in a grid can be both visually indicated as the first tile and a swapped tile. Tool tip of swapped tiles can use the original grid's value to show what the previous letter was before being swapped.
+- Check program for memory leaks
 ---
 
 (stacking multipliers is additive)
