@@ -15,7 +15,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 5. To view more details about a specific word, click on the word in the list on the right.
    - Green: Path to take
    - Dark Green: First tile in the path
-   - Red: Swapped tiles
+   - Red Outline: Swapped tiles
 7. Toggle the checkbox in the details window of a word to display arrows in the grid, indicating the path of the word.
 8. Click the reset buttons to reset the button states of each tile.
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/51ab8370-c8e5-4984-af5c-1c59c577e5e0)
@@ -25,12 +25,6 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 
 
 ## To-Do
-
-- (done) Change "# of scores" to "# of words"
-- (done) Oversight where the first tile in a word isn't swapped (the 8 directions are checked for swaps, but not the first tile itself. algorithm change would be checking the swap on each tile itself rather than surrounding directions?). Fixing this will make it take a little longer to run and make 3 swap checks take even longer.
-- (done) Change grid display to show outlines on swapped tiles so that the first tile in a grid can be both visually indicated as the first tile and a swapped tile. 
-- (done) Warning text if no DL or TL multiplier set
-- (done) Scrape 1-letter words and banned "profanity" words from the word list.
 - Set tool tips for each button/text box
    - Tool tip of swapped tiles can use the original grid's value to show what the previous letter was before being swapped.
    - Most button tooltips are just use cases: limit multiplier checkbox use case is only adventure mode
