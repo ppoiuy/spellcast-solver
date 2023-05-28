@@ -30,7 +30,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 - (done) Oversight where the first tile in a word isn't swapped (the 8 directions are checked for swaps, but not the first tile itself. algorithm change would be checking the swap on each tile itself rather than surrounding directions?). Fixing this will make it take a little longer to run and make 3 swap checks take even longer.
 - (done) Change grid display to show outlines on swapped tiles so that the first tile in a grid can be both visually indicated as the first tile and a swapped tile. 
 - (done) Warning text if no DL or TL multiplier set
-- - Scrape 1-letter words and banned "profanity" words from the word list.
+- Scrape 1-letter words and banned "profanity" words from the word list.
 - Set tool tips for each button/text box
    - Tool tip of swapped tiles can use the original grid's value to show what the previous letter was before being swapped.
    - Most button tooltips are just use cases: limit multiplier checkbox use case is only adventure mode
