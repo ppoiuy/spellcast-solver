@@ -28,7 +28,7 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 
 - (done) Change "# of scores" to "# of words"
 - (done) Oversight where the first tile in a word isn't swapped (the 8 directions are checked for swaps, but not the first tile itself. algorithm change would be checking the swap on each tile itself rather than surrounding directions?). Fixing this will make it take a little longer to run and make 3 swap checks take even longer.
-- (do next) Change grid display to show outlines on swapped tiles so that the first tile in a grid can be both visually indicated as the first tile and a swapped tile. 
+- (done) Change grid display to show outlines on swapped tiles so that the first tile in a grid can be both visually indicated as the first tile and a swapped tile. 
 - (do next) Warning text if no DL or TL multiplier set
 - (do soon) Check program for memory leaks
 - (do after outline) Set tool tips for each button/text box
