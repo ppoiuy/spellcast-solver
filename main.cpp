@@ -17,10 +17,37 @@
 #include <QBrush>
 #include <QCheckBox>
 #include <QRegularExpression>
+#include <QPainter>
+#include <QStyledItemDelegate>
+#include <QMessageBox>
 #include <vector>
 #include <unordered_map>
 #include "solver.h"
 #include "trie.h"
+
+
+class OutlineDelegate : public QStyledItemDelegate
+{
+public:
+    void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override
+    {
+        QStyledItemDelegate::paint(painter, option, index);
+
+        if (option.state & QStyle::State_Selected)
+        {
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(Qt::NoBrush);
+            painter->drawRect(option.rect);
+        }
+        else if (index.data(Qt::UserRole).toBool())
+        {
+            painter->setPen(QPen(Qt::red, 3));
+            painter->setBrush(Qt::NoBrush);
+            QRect rect = option.rect.adjusted(1, 1, -1, -1);
+            painter->drawRect(rect);
+        }
+    }
+};
 
 class WordDetailsWindow : public QDialog
 {
@@ -46,6 +73,8 @@ public:
         gridTable->setEditTriggers(QAbstractItemView::NoEditTriggers); // Make the table read-only
         gridTable->setSelectionMode(QAbstractItemView::NoSelection); // Disable tile selection
         gridTable->setFocusPolicy(Qt::NoFocus); // Remove the focus outline
+
+        gridTable->setItemDelegate(new OutlineDelegate); // Set the custom delegate
 
         for (int i = 0; i < gridSize; ++i)
         {
@@ -83,13 +112,8 @@ public:
                 }
 
                 // Set the cell background color based on the condition
-                if (isSwapped)
-                {
-                    item->setBackground(Qt::red);
-                    item->setForeground(QBrush(Qt::white)); // Set swapped tiles text color to white
-                    item->setFont(QFont("Arial", 10, QFont::Bold)); // Set swapped tiles font to bold
-                }
-                else if (isPath)
+                item->setData(Qt::UserRole, isSwapped); // Set custom data to indicate swapped tiles
+                if (isPath)
                 {
                     item->setBackground(Qt::green);
                     item->setFont(QFont("Arial", 10, QFont::Bold)); // Set path tiles font to bold
@@ -340,8 +364,8 @@ public:
         connect(solveButton, &QPushButton::clicked, this, &GridWindow::runSolver);
         layout->addWidget(solveButton, 5, 0, 1, 5, Qt::AlignBottom | Qt::AlignLeft); // Position solve button
 
-        // Create a QLabel for the "Number of Scores" label
-        QLabel* numScoresLabel = new QLabel("# of scores: ");
+        // Create a QLabel for the "Number of Words" label
+        QLabel* numScoresLabel = new QLabel("# of words: ");
         layout->addWidget(numScoresLabel, 7, 3, 1, 1, Qt::AlignBottom | Qt::AlignRight); // Position at the bottom left with left alignment
 
         // Create the arrow display toggle button
@@ -455,6 +479,28 @@ private slots:
 
     void runSolver()
     {
+        // Check if letterMultipliers matrix is only filled with 1s
+        bool noLetterMultipliers = true;
+        for (int row = 0; row < 5; ++row)
+        {
+            for (int col = 0; col < 5; ++col)
+            {
+                if (letterMultipliers[row][col] != 1)
+                {
+                    noLetterMultipliers = false;
+                    break;
+                }
+            }
+            if (!noLetterMultipliers)
+                break;
+        }
+
+        // Show a warning message if all letterMultipliers are 1s
+        if (noLetterMultipliers)
+        {
+            QMessageBox::warning(this, "Warning", "No letter multipliers set. Results likely inaccurate.");
+        }
+
         std::vector<std::vector<char>> gridMatrix;
         gridMatrix.resize(5, std::vector<char>(5));
 
@@ -481,6 +527,7 @@ private slots:
             item->setData(Qt::UserRole, QVariant::fromValue(word));
             listWidget->addItem(item);
         }
+
     }
 
     void cycleState()
@@ -640,8 +687,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.0");
-    // v1.0
+    window.setWindowTitle("SpellCast Solver v1.1");
+    // v1.1
 
     // Set the fixed window size
     const int WINDOW_WIDTH = 680;

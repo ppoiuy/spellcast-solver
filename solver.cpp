@@ -241,6 +241,32 @@ void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid
             dfs(grid, validWords, startCell, std::string(1, grid[row][col]), topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps, path, swappedTiles, scoreNumber);
             visited[row][col] = false;
             path.pop_back();
+
+            // Check if there are remaining swaps available for the start cell
+            if (maxSwaps > 0) {
+                char temp = grid[row][col];
+                // Perform a swap and recursively traverse to the next cell only if the prefix is a prefix of at least one word
+                for (char letter = 'a'; letter <= 'z'; ++letter) {
+                    std::string newPrefix = std::string(1, letter);
+                    // Check if the new prefix is a prefix of any word in the set
+                    bool isPrefix = false;
+                    if (validWords.searchPrefix(newPrefix)) {
+                        isPrefix = true;
+                    }
+                    // Perform a swap and recursively traverse to the next cell only if the prefix is a prefix of at least one word
+                    if (isPrefix) {
+                        visited[row][col] = true;
+                        swappedTiles.push_back({{row, col}, letter});  // Store the swapped tile coordinates and the letter it changed to
+                        grid[row][col] = letter;
+                        path.push_back({row, col});
+                        dfs(grid, validWords, {row, col}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps - 1, path, swappedTiles, scoreNumber);
+                        path.pop_back();
+                        visited[row][col] = false;
+                        grid[row][col] = temp;
+                        swappedTiles.pop_back();  // Revert the swapped tile coordinates
+                    }
+                }
+            }
         }
     }
 

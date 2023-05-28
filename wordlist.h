@@ -4,7 +4,6 @@
 #include <string>
 
 const std::string WORD_LIST = R"(
-a
 aa
 aah
 aalii
@@ -7123,7 +7122,6 @@ azure
 azures
 azurite
 azygous
-b
 baa
 baaed
 baaing
@@ -13467,7 +13465,6 @@ byways
 byword
 bywords
 byzantine
-c
 ca
 cab
 cabal
@@ -24597,7 +24594,6 @@ czarism
 czarist
 czarists
 czars
-d
 dab
 dabbed
 dabber
@@ -31483,7 +31479,6 @@ dysuria
 dz
 dziggetai
 dziggetais
-e
 ea
 each
 eager
@@ -36267,7 +36262,6 @@ eyra
 eyras
 eyre
 eyrir
-f
 fa
 fab
 fabaceous
@@ -40874,7 +40868,6 @@ fwy
 fyke
 fylfot
 fyrd
-g
 gab
 gabardine
 gabardines
@@ -44596,7 +44589,6 @@ gyve
 gyved
 gyves
 gyving
-h
 ha
 haaf
 haar
@@ -48730,7 +48722,6 @@ hysterics
 hysterogenic
 hysteroid
 hysterotomy
-i
 iamb
 iambi
 iambic
@@ -53354,7 +53345,6 @@ ixia
 ixtle
 izard
 izzard
-j
 ja
 jab
 jabbed
@@ -54270,7 +54260,6 @@ juxtaposing
 juxtaposition
 juxtapositional
 juxtapositions
-k
 ka
 kab
 kabbalah
@@ -55237,7 +55226,6 @@ kymograph
 kymographs
 kyphoses
 kyphosis
-l
 la
 laager
 laagers
@@ -58597,7 +58585,6 @@ lyssa
 lythraceous
 lytic
 lytta
-m
 ma
 mac
 macabre
@@ -64490,7 +64477,6 @@ myxomatoses
 myxomatosis
 myxomycete
 myxomycetes
-n
 naan
 naans
 nab
@@ -66894,7 +66880,6 @@ nystagmic
 nystagmus
 nystatin
 nystatins
-o
 oaf
 oafish
 oafishly
@@ -69929,7 +69914,6 @@ ozoniferous
 ozonize
 ozonolysis
 ozonosphere
-p
 pa
 pablum
 pabulum
@@ -79205,7 +79189,6 @@ pyxidium
 pyxie
 pyxies
 pzazz
-q
 qadi
 qi
 qibla
@@ -79755,7 +79738,6 @@ quotient
 quotients
 quoting
 qwerty
-r
 rabato
 rabatos
 rabbet
@@ -86035,7 +86017,6 @@ rutty
 rya
 ryas
 rye
-s
 sabadilla
 sabayon
 sabayons
@@ -98574,7 +98555,6 @@ systolic
 syzygial
 syzygies
 syzygy
-t
 ta
 tab
 tabanid
@@ -104250,7 +104230,6 @@ tyrosines
 tyrothricin
 tyrothricins
 tzatziki
-u
 ubieties
 ubiety
 ubiquitarian
@@ -107533,7 +107512,6 @@ uxorious
 uxoriously
 uxoriousness
 uxoriousnesses
-v
 vac
 vacancies
 vacancy
@@ -109307,7 +109285,6 @@ vuvuzela
 vuvuzelas
 vv
 vying
-w
 wack
 wacke
 wacker
@@ -111867,7 +111844,6 @@ wussies
 wussiest
 wussy
 wynd
-x
 xanthate
 xanthein
 xanthene
@@ -111932,7 +111908,6 @@ xylophonists
 xylotomous
 xylotomy
 xyster
-y
 ya
 yabber
 yacht
@@ -112235,7 +112210,6 @@ yups
 yurt
 yurts
 ywis
-z
 zabaglione
 zabagliones
 zaffer
