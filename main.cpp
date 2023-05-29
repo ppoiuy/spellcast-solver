@@ -57,8 +57,13 @@ public:
     {
         setFixedSize(224, 269); // Set a static window size
 
-        // Window title is word - value
-        setWindowTitle(QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + QString::number(word.netGems) + ")");
+        // Window title is word - value (netGems)
+        QString netGemsText = QString::number(word.netGems);
+        if (word.netGems > 0)
+        {
+            netGemsText = QString::fromStdString("+") + netGemsText;
+        }
+        setWindowTitle(QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + netGemsText + ")");
 
         QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -163,7 +168,7 @@ public:
         layout->addWidget(valueLabel);
 
         QLabel* netGemLabel = new QLabel(this);
-        netGemLabel->setText("Net Gems: " + QString::number(word.netGems));
+        netGemLabel->setText("Net Gems: " + netGemsText);
         netGemLabel->setFont(QFont("Arial", 12));
         layout->addWidget(netGemLabel);
 
@@ -510,7 +515,7 @@ private slots:
         // Show a warning message if all letterMultipliers are 1s
         if (noLetterMultipliers)
         {
-            QMessageBox::warning(this, "Warning", "No letter multipliers set. Results likely inaccurate.");
+            QMessageBox::warning(this, "Warning", "No letter multipliers set.");
         }
 
         std::vector<std::vector<char>> gridMatrix;
@@ -535,7 +540,12 @@ private slots:
         // Populate the list widget with the elements
         for (const Word& word : topWordsVect) {
             QListWidgetItem* item = new QListWidgetItem();
-            QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + QString::number(word.netGems) + ")";
+            QString netGemsText = QString::number(word.netGems);
+            if (word.netGems > 0)
+            {
+                netGemsText = QString::fromStdString("+") + netGemsText;
+            }
+            QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + netGemsText + ")";
             item->setText(text);
             item->setData(Qt::UserRole, QVariant::fromValue(word));
             listWidget->addItem(item);
