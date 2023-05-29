@@ -1,4 +1,4 @@
-# spellcastsolver
+# spellcast-solver
 Word finder for Discord's SpellCast game
 
 Allows for inputting letters, modifying tile values, and generating a list of the best words based on their value, showing each path and which letters to swap.
