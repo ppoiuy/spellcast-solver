@@ -5,7 +5,7 @@ Allows for inputting letters, modifying tile values, and generating a list of th
 
 ## How to Use
 
-WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier doesn't work despite visually showing. Don't set a 2x tile on the first turn of a game.
+Note: SpellCast is bugged on the first turn of games where the 2x multiplier doesn't work despite visually showing. Don't set a 2x tile on the first turn of a game.
 1. Fill in the text boxes with letters that correspond to the SpellCast game grid.
 2. Use the buttons located above each text box to change a tile's value. You can set it to DL (Double Letter), TL (Triple Letter), and/or 2x (Double Word).
 3. Adjust the slider to represent the gem number to calculate the number of swaps.
