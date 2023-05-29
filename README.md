@@ -21,12 +21,11 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/75cde797-0a14-4926-8120-f16567b2a20c)
 
-![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/339d06d7-24c4-4ea5-b544-141b61233f42)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/4eb7abb1-2f26-49b8-84b2-ef1a3544bdf7)
 
-![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/d5c35592-5a56-4529-ad12-e093fc309675)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/b9b87e2d-6914-4fd3-b407-9ab113711550)
 
 ## To-Do
-- Sort by net gems after sorting by prio queue? need to add net gem condition in overloaded operator if equal
 - Set tool tips for each button/text box
    - Tool tip of swapped tiles can use the original grid's value to show what the previous letter was before being swapped.
    - Most button tooltips are just use cases: limit multiplier checkbox use case is only adventure mode
