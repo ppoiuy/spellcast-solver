@@ -17,8 +17,14 @@
 const int SIZE = 5;  // Grid size
 
 bool Word::operator<(const Word& other) const {
+    //tiebreaker is netGems
+    if (value == other.value)
+    {
+        return (netGems > other.netGems);
+    }
     return value > other.value;
 }
+
 
 // Function to check if the given coordinates are within the grid
 bool isValidCell(int row, int col) {
