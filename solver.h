@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <limits>
 #include <queue>
+#include <utility>
 #include "trie.h"
 
 // Structure to store coordinates of a cell
@@ -21,13 +22,14 @@ struct Word {
     std::string word;
     int value;
     std::vector<std::pair<int, int>> path;
-    std::vector<std::pair<std::pair<int, int>, char>> swappedTiles;
+    std::set<std::pair<int, int>> swappedTiles;
     std::vector<std::vector<char>> grid;
+    int netGems;
 
-    Word() : value(0) {}
+    Word() : value(0), netGems(0) {}
 
-    Word(const std::string& word, int value, const std::vector<std::pair<int, int>>& path, const std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, const std::vector<std::vector<char>>& grid)
-        : word(word), value(value), path(path), swappedTiles(swappedTiles), grid(grid) {}
+    Word(const std::string& word, int value, const std::vector<std::pair<int, int>>& path, const std::set<std::pair<int, int>>& swappedTiles, const std::vector<std::vector<char>>& grid, int netGems)
+        : word(word), value(value), path(path), swappedTiles(swappedTiles), grid(grid), netGems(netGems) {}
 
     bool operator<(const Word& other) const;
 };
@@ -43,12 +45,12 @@ const std::map<char, int>& letterValues, const std::vector<std::vector<int>>& le
 void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& currCell, const std::string& prefix, std::priority_queue<Word>& topWords, 
 std::vector<std::vector<bool>>& visited, const std::map<char, int>& letterValues, const std::vector<std::vector<int>>& letterMultipliers, 
 const std::vector<std::vector<bool>>& wordMultipliers, int wordMultiplier, int maxSwaps, std::vector<std::pair<int, int>>& path, 
-std::vector<std::pair<std::pair<int, int>, char>>& swappedTiles, int scoreNumber);
+std::set<std::pair<int, int>>& swappedTiles, std::vector<std::vector<bool>> &gemPositions, int& scoreNumber);
 
 void initializeValidWordTrie(Trie& validWords);
 
-void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers);
+void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, std::vector<std::vector<bool>> &gemPositions);
 
-void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid, int& maxSwaps, Trie& validWords, std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, int scoreNumber);
+void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid, int& maxSwaps, Trie& validWords, std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, std::vector<std::vector<bool>> &gemPositions,  int scoreNumber);
 
 #endif  // 

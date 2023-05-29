@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <vector>
 #include <unordered_map>
+#include <utility>
 #include "solver.h"
 #include "trie.h"
 
@@ -54,10 +55,10 @@ class WordDetailsWindow : public QDialog
 public:
     WordDetailsWindow(const Word& word, QWidget* parent = nullptr) : QDialog(parent), showArrows(true), word(word)
     {
-        setFixedSize(224, 246); // Set a static window size
+        setFixedSize(224, 269); // Set a static window size
 
         // Window title is word - value
-        setWindowTitle(QString::fromStdString(word.word) + " - " + QString::number(word.value));
+        setWindowTitle(QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + QString::number(word.netGems) + ")");
 
         QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -102,13 +103,8 @@ public:
                 }
 
                 // Check if the current coordinates are in the swappedTiles vector
-                for (const auto& swappedTile : word.swappedTiles)
-                {
-                    if (swappedTile.first.first == i && swappedTile.first.second == j)
-                    {
-                        isSwapped = true;
-                        break;
-                    }
+                if (word.swappedTiles.count({i,j}) > 0) {
+                    isSwapped = true;
                 }
 
                 // Set the cell background color based on the condition
@@ -165,6 +161,11 @@ public:
         valueLabel->setText("Value: " + QString::number(word.value));
         valueLabel->setFont(QFont("Arial", 12));
         layout->addWidget(valueLabel);
+
+        QLabel* netGemLabel = new QLabel(this);
+        netGemLabel->setText("Net Gems: " + QString::number(word.netGems));
+        netGemLabel->setFont(QFont("Arial", 12));
+        layout->addWidget(netGemLabel);
 
         // Create the arrow display toggle checkbox
         QCheckBox* arrowCheckBox = new QCheckBox("Show Grid Arrows", this);
@@ -294,6 +295,7 @@ protected:
             focusNextChild();
             focusNextChild();
             focusNextChild();
+            focusNextChild();
         }
     }
 };
@@ -336,11 +338,20 @@ public:
                 connect(multiplierButton, &QPushButton::clicked, this, &GridWindow::toggleMultiplier);
                 tileLayout->addWidget(multiplierButton, 0, 2, Qt::AlignTop | Qt::AlignRight); // Position button to top right
 
+                QPushButton* gemButton = new QPushButton("", tileWidget);
+                gemButton->setProperty("row", row);
+                gemButton->setProperty("col", col);
+                gemButton->setProperty("state", 0); // 0 = no gem, 1 = gem
+                gemButton->setFixedSize(40, 20); // Set button size
+                connect(gemButton, &QPushButton::clicked, this, &GridWindow::toggleGemPosition);
+                tileLayout->addWidget(gemButton, 1, 0, Qt::AlignTop);
+
                 tileWidget->setLayout(tileLayout);
                 layout->addWidget(tileWidget, row, col);
 
                 cycleButtons[row][col] = cycleButton;
                 multiplierButtons[row][col] = multiplierButton;
+                gemButtons[row][col] = gemButton;
                 grid[row][col] = ' '; // Initialize grid with empty characters
 
                 // Connect the textChanged signal of the SquareTextBox to updateGrid slot
@@ -415,6 +426,7 @@ public:
         QPushButton *resetGridButton = new QPushButton("Reset Grid",this);
         connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetCycleButtons);
         connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetMultiplierButtons);
+        connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetGemButtons);
         connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetGrid);
         resetGridButton->setFixedWidth(65);
         layout->addWidget(resetGridButton, 6, 4, 1, 1);
@@ -422,7 +434,7 @@ public:
         setLayout(layout);
 
         initializeValidWordTrie(validWords);
-        initializeValues(letterValues, letterMultipliers, wordMultipliers);
+        initializeValues(letterValues, letterMultipliers, wordMultipliers, gemPositions);
     }
 
 private slots:
@@ -514,7 +526,8 @@ private slots:
 
         int maxSwaps = int(gemsValue/3);
         topWordsVect.clear();
-        solve(topWordsVect, gridMatrix, maxSwaps, validWords, letterValues, letterMultipliers, wordMultipliers, scoreNumber);
+
+        solve(topWordsVect, gridMatrix, maxSwaps, validWords, letterValues, letterMultipliers, wordMultipliers, gemPositions, scoreNumber);
 
         // Clear the list widget
         listWidget->clear();
@@ -522,7 +535,7 @@ private slots:
         // Populate the list widget with the elements
         for (const Word& word : topWordsVect) {
             QListWidgetItem* item = new QListWidgetItem();
-            QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value);
+            QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + QString::number(word.netGems) + ")";
             item->setText(text);
             item->setData(Qt::UserRole, QVariant::fromValue(word));
             listWidget->addItem(item);
@@ -606,6 +619,36 @@ private slots:
         }
     }
 
+    void toggleGemPosition()
+    {
+        QPushButton* button = qobject_cast<QPushButton*>(sender());
+        if (button)
+        {
+            int row = button->property("row").toInt();
+            int col = button->property("col").toInt();
+            int state = button->property("state").toInt();
+
+            state = (state + 1) % 2; // Cycle between 0 and 1 (1x, 2x)
+
+            button->setProperty("state", state);
+            switch (state)
+            {
+            case 0:
+                button->setText("");
+                button->setStyleSheet(""); // Reset button color
+                // Assign false in gemPositions matrix
+                gemPositions[row][col] = false;
+                break;
+            case 1:
+                button->setText("");
+                button->setStyleSheet("background-color: pink"); // Set button color to pink
+                // Assign true in gemPositions matrix
+                gemPositions[row][col] = true;
+                break;
+            }
+        }
+    }
+
     void showWordDetails(QListWidgetItem* item)
     {
         Word word = item->data(Qt::UserRole).value<Word>();
@@ -622,6 +665,7 @@ private:
     std::map<char, int> letterValues;
     std::vector<std::vector<int>> letterMultipliers;
     std::vector<std::vector<bool>> wordMultipliers;
+    std::vector<std::vector<bool>> gemPositions;
     std::vector<Word> topWordsVect;
     int scoreNumber = 50;
     int gemsValue = 3;
@@ -629,6 +673,7 @@ private:
 
     QPushButton* cycleButtons[5][5];
     QPushButton* multiplierButtons[5][5];
+    QPushButton* gemButtons[5][5];
 
     bool showArrows;
     bool limitMultipliers;
@@ -665,6 +710,21 @@ private:
         }
     }
 
+    void resetGemButtons()
+    {
+        for (int row = 0; row < 5; ++row)
+        {
+            for (int col = 0; col < 5; ++col)
+            {
+                QPushButton* button = gemButtons[row][col];
+                button->setProperty("state", 0);
+                button->setText("");
+                button->setStyleSheet(""); // Reset button color
+                gemPositions[row][col] = false;
+            }
+        }
+    }
+
     void resetGrid()
     {
         for (int row = 0; row < 5; ++row)
@@ -687,12 +747,12 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.1");
-    // v1.1
+    window.setWindowTitle("SpellCast Solver v1.2");
+    // v1.2
 
     // Set the fixed window size
     const int WINDOW_WIDTH = 680;
-    const int WINDOW_HEIGHT = 336;
+    const int WINDOW_HEIGHT = 440;
     window.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     window.show();
