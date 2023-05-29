@@ -20,7 +20,9 @@ WARNING: SpellCast is bugged on the first turn of games where the 2x multiplier 
 7. Click the reset buttons to reset the button states of every tile.
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/75cde797-0a14-4926-8120-f16567b2a20c)
+
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/339d06d7-24c4-4ea5-b544-141b61233f42)
+
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/d5c35592-5a56-4529-ad12-e093fc309675)
 
 ## To-Do
