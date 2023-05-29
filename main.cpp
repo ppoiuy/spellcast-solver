@@ -427,6 +427,11 @@ public:
         //resetMultButton->setFixedWidth(100);
         layout->addWidget(resetMultButton, 6, 3, 1, 1);
 
+        // reset multipliers
+        QPushButton *resetGemButton = new QPushButton("Reset Gem States",this);
+        connect(resetGemButton, &QPushButton::clicked, this, &GridWindow::resetGemButtons);
+        layout->addWidget(resetGemButton, 6, 2, 1, 1);
+
         // reset grid and multipliers
         QPushButton *resetGridButton = new QPushButton("Reset Grid",this);
         connect(resetGridButton, &QPushButton::clicked, this, &GridWindow::resetCycleButtons);
