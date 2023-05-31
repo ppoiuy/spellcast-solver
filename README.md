@@ -30,7 +30,7 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
 - Pasting string of text should overflow to next text boxes, or add import line of text option
 - Use larger, more accurate word list
 - Custom multiplier options for adventure mode
-- 
+
 ---
 
 ![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/47679a26-452e-47ba-9258-b7f7bdce964a)
