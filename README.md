@@ -3,7 +3,7 @@ Word finder for Discord's SpellCast game
 
 Allows for inputting letters, modifying tile values, and generating a list of the best words based on their value, showing each path and which letters to swap.
 
-## How to Use
+## Usage
 
 Note: SpellCast is bugged on the first turn of games where the 2x multiplier doesn't work despite visually showing. Don't set a 2x tile on the first turn of a game.
 - Fill in the text boxes with letters that correspond to the SpellCast game grid.
