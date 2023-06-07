@@ -27,6 +27,7 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
 
 ## To-Do
 - Tool tips
+- Filter out words with certain net changes (in case you want specifically words that give 3+ gems)
 - Pasting string of text should overflow to next text boxes, or add import line of text option
 - Use larger, more accurate word list
 - Custom multiplier options for adventure mode
