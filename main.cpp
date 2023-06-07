@@ -380,6 +380,28 @@ public:
         connect(solveButton, &QPushButton::clicked, this, &GridWindow::runSolver);
         layout->addWidget(solveButton, 5, 0, 1, 5, Qt::AlignBottom | Qt::AlignLeft); // Position solve button
 
+        // Create a QLabel for the "Minimum Gems Kept" label
+        QLabel* minGemsKeptLabel = new QLabel("Min Gems Kept: ");
+        layout->addWidget(minGemsKeptLabel, 7, 2, 1, 1, Qt::AlignBottom | Qt::AlignRight); // Position at the bottom left with left alignment
+
+        // Create the arrow display toggle button
+        QLineEdit* minGemsKeptLineEdit = new QLineEdit();
+        minGemsKeptLineEdit->setValidator(new QIntValidator()); // Only accept integer values
+        minGemsKeptLineEdit->setText("0"); // Set default text
+
+        // Set the maximum width and height for the text box
+        minGemsKeptLineEdit->setMaximumWidth(30);
+        minGemsKeptLineEdit->setMaximumHeight(20);
+
+        QObject::connect(minGemsKeptLineEdit, &QLineEdit::textChanged, this, [=](const QString& text) {
+            bool conversionOk;
+            int newMinGemsKept = text.toInt(&conversionOk);
+            if (conversionOk) {
+                minGemsKept = newMinGemsKept;
+            }
+        });
+        layout->addWidget(minGemsKeptLineEdit, 7, 3, 1, 1, Qt::AlignBottom); // Position text box
+
         // Create a QLabel for the "Number of Words" label
         QLabel* numScoresLabel = new QLabel("# of words: ");
         layout->addWidget(numScoresLabel, 7, 3, 1, 1, Qt::AlignBottom | Qt::AlignRight); // Position at the bottom left with left alignment
@@ -390,7 +412,7 @@ public:
         scoreNumberLineEdit->setText("50"); // Set default text
 
         // Set the maximum width and height for the text box
-        scoreNumberLineEdit->setMaximumWidth(40);
+        scoreNumberLineEdit->setMaximumWidth(65);
         scoreNumberLineEdit->setMaximumHeight(20);
 
         QObject::connect(scoreNumberLineEdit, &QLineEdit::textChanged, this, [=](const QString& text) {
@@ -544,16 +566,18 @@ private slots:
 
         // Populate the list widget with the elements
         for (const Word& word : topWordsVect) {
-            QListWidgetItem* item = new QListWidgetItem();
-            QString netGemsText = QString::number(word.netGems);
-            if (word.netGems > 0)
-            {
-                netGemsText = QString::fromStdString("+") + netGemsText;
+            if ((word.netGems + gemsValue) >= minGemsKept) { // only list words that keep gems at or above minGemsKept
+                QListWidgetItem* item = new QListWidgetItem();
+                QString netGemsText = QString::number(word.netGems);
+                if (word.netGems > 0)
+                {
+                    netGemsText = QString::fromStdString("+") + netGemsText;
+                }
+                QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + netGemsText + ")";
+                item->setText(text);
+                item->setData(Qt::UserRole, QVariant::fromValue(word));
+                listWidget->addItem(item);
             }
-            QString text = QString::fromStdString(word.word) + " - " + QString::number(word.value) + " (" + netGemsText + ")";
-            item->setText(text);
-            item->setData(Qt::UserRole, QVariant::fromValue(word));
-            listWidget->addItem(item);
         }
 
     }
@@ -682,6 +706,7 @@ private:
     std::vector<std::vector<bool>> wordMultipliers;
     std::vector<std::vector<bool>> gemPositions;
     std::vector<Word> topWordsVect;
+    int minGemsKept = 0;
     int scoreNumber = 50;
     int gemsValue = 3;
     QLabel* gemValueLabel;
@@ -762,8 +787,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.2");
-    // v1.2
+    window.setWindowTitle("SpellCast Solver v1.3");
+    // v1.3
 
     // Set the fixed window size
     const int WINDOW_WIDTH = 680;
