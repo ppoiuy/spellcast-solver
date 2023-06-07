@@ -19,11 +19,11 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
    - Red Outline: Swapped tiles
 - Click the reset buttons to reset the corresponding button states of every tile.
 
-![image](https://github.com/ppoiuy/spellcastsolver/assets/21088852/75cde797-0a14-4926-8120-f16567b2a20c)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/9abfa579-9e32-4701-b543-62a7500dde63)
 
-![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/4eb7abb1-2f26-49b8-84b2-ef1a3544bdf7)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/50177568-5e0d-4510-9fca-bc666b57e7e8)
 
-![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/b9b87e2d-6914-4fd3-b407-9ab113711550)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/ae659cae-4358-48da-bcac-d11eba3b4dd4)
 
 ## To-Do
 - Tool tips
