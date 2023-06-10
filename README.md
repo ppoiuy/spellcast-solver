@@ -19,14 +19,13 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
    - Red Outline: Swapped tiles
 - Click the reset buttons to reset the corresponding button states of every tile.
 
-![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/9abfa579-9e32-4701-b543-62a7500dde63)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/49264184-858c-4fed-8456-95b8d336ddcc)
 
-![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/50177568-5e0d-4510-9fca-bc666b57e7e8)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/bafa36ee-7f50-4449-9a08-4407e8aeb34c)
 
-![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/ae659cae-4358-48da-bcac-d11eba3b4dd4)
+![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/eb05e414-cb2b-43c2-9f96-5be91b94d9be)
 
 ## To-Do
-- It should show results for lower numbers of swaps, not only the maximum
 - Tool tips
 - Filter out words with certain net changes (in case you want specifically words that give 3+ gems)
 - Pasting string of text should overflow to next text boxes, or add import line of text option
