@@ -18,6 +18,7 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
    - Dark Green: First tile in the path
    - Red Outline: Swapped tiles
 - Click the reset buttons to reset the corresponding button states of every tile.
+- Set Min Gems Kept to the minimum number of gems you want to keep after using the word. Intervals of 3 are best for every turn except the last, best value for last turn is 0.
 
 ![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/49264184-858c-4fed-8456-95b8d336ddcc)
 
