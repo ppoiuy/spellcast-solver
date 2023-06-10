@@ -297,10 +297,41 @@ protected:
         if (event->key() >= Qt::Key_A && event->key() <= Qt::Key_Z)
         {
             setText(event->text().toUpper());
-            focusNextChild();
-            focusNextChild();
-            focusNextChild();
-            focusNextChild();
+            for (int i = 0; i < 4; i++) {
+                focusNextChild();
+            }
+        }
+        else if (event->key() == Qt::Key_Backspace) {
+            if (text().isEmpty())
+            {
+                for (int i = 0; i < 4; i++) {
+                    focusPreviousChild();
+                }
+            }
+            else
+            {
+                QLineEdit::keyPressEvent(event);
+            }
+        }
+        else if (event->key() == Qt::Key_Up){
+            for (int i = 0; i < 20; i++) {
+                focusPreviousChild();
+            }
+        }
+        else if (event->key() == Qt::Key_Down){
+            for (int i = 0; i < 20; i++) {
+                focusNextChild();
+            }
+        }
+        else if (event->key() == Qt::Key_Left){
+            for (int i = 0; i < 4; i++) {
+                focusPreviousChild();
+            }
+        }
+        else if (event->key() == Qt::Key_Right){
+            for (int i = 0; i < 4; i++) {
+                focusNextChild();
+            }
         }
     }
 };
@@ -556,17 +587,21 @@ private slots:
             }
         }
 
-        int maxSwaps = int(gemsValue/3);
-        topWordsVect.clear();
-
-        solve(topWordsVect, gridMatrix, maxSwaps, validWords, letterValues, letterMultipliers, wordMultipliers, gemPositions, scoreNumber);
-
         // Clear the list widget
         listWidget->clear();
 
-        // Populate the list widget with the elements
-        for (const Word& word : topWordsVect) {
-            if ((word.netGems + gemsValue) >= minGemsKept) { // only list words that keep gems at or above minGemsKept
+        bool checkLowerSwaps = true;
+        int maxSwaps = int(gemsValue/3);
+        int scoreNumberCount = 0;
+
+        while (checkLowerSwaps)
+        {
+            topWordsVect.clear();
+            solve(topWordsVect, gridMatrix, maxSwaps, validWords, letterValues, letterMultipliers, wordMultipliers, gemPositions, scoreNumber, gemsValue, minGemsKept);
+
+            // Populate the list widget with the elements
+            for (const Word& word : topWordsVect) {
+                //if ((word.netGems + gemsValue) >= minGemsKept) { // only list words that keep gems at or above minGemsKept
                 QListWidgetItem* item = new QListWidgetItem();
                 QString netGemsText = QString::number(word.netGems);
                 if (word.netGems > 0)
@@ -577,8 +612,22 @@ private slots:
                 item->setText(text);
                 item->setData(Qt::UserRole, QVariant::fromValue(word));
                 listWidget->addItem(item);
+                scoreNumberCount++;
+                //}
             }
+
+            // run loop again if there are lower numbers of swaps to check
+            if (maxSwaps > 0 && scoreNumberCount < scoreNumber)
+            {
+                maxSwaps--;
+            }
+            else
+            {
+                checkLowerSwaps = false;
+            }
+
         }
+        std::cout << "DONE\n";
 
     }
 
@@ -787,8 +836,8 @@ int main(int argc, char** argv)
     QApplication app(argc, argv);
 
     GridWindow window;
-    window.setWindowTitle("SpellCast Solver v1.3");
-    // v1.3
+    window.setWindowTitle("SpellCast Solver v1.4");
+    // v1.4
 
     // Set the fixed window size
     const int WINDOW_WIDTH = 680;

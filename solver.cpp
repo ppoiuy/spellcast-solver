@@ -54,7 +54,7 @@ int calculateWordValue(const std::vector<std::pair<int, int>>& path, const std::
 void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& currCell, const std::string& prefix, std::priority_queue<Word>& topWords,
          std::vector<std::vector<bool>>& visited, const std::map<char, int>& letterValues, const std::vector<std::vector<int>>& letterMultipliers,
          const std::vector<std::vector<bool>>& wordMultipliers, int wordMultiplier, int maxSwaps, std::vector<std::pair<int, int>>& path,
-         std::set<std::pair<int, int>>& swappedTiles, std::vector<std::vector<bool>> &gemPositions, int& scoreNumber) {
+         std::set<std::pair<int, int>>& swappedTiles, std::vector<std::vector<bool>> &gemPositions, int& scoreNumber, int gemsValue, int minGemsKept) {
     // Check if the current prefix is a valid word
     std::string prefixLowerCase = prefix;
     transform(prefixLowerCase.begin(), prefixLowerCase.end(), prefixLowerCase.begin(), ::tolower);
@@ -85,7 +85,8 @@ void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& cur
                 netGems++; // Add 1 to netGems
             }
         }
-        if (topWords.size() < scoreNumber || value > topWords.top().value) {
+        if (topWords.size() < scoreNumber || ((value > topWords.top().value) && ((netGems + gemsValue) >= minGemsKept))) {
+            
             Word newWord;
             newWord.word = prefixLowerCase;
             newWord.value = value;
@@ -127,7 +128,7 @@ void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& cur
             // Recursively traverse to the next cell only if the prefix is a prefix of at least one word
             if (isPrefix) {
                 path.push_back({newRow, newCol});
-                dfs(grid, validWords, {newRow, newCol}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, newWordMultiplier, maxSwaps, path, swappedTiles, gemPositions, scoreNumber);
+                dfs(grid, validWords, {newRow, newCol}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, newWordMultiplier, maxSwaps, path, swappedTiles, gemPositions, scoreNumber, gemsValue, minGemsKept);
                 path.pop_back();
             }
 
@@ -165,7 +166,7 @@ void dfs(std::vector<std::vector<char>>& grid, Trie& validWords, const Cell& cur
                             swappedTiles.insert({newRow, newCol});  // Store the swapped tile coordinates and the letter it changed to
                             grid[newRow][newCol] = letter;
                             path.push_back({newRow, newCol});
-                            dfs(grid, validWords, {newRow, newCol}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, wordMultiplier, maxSwaps - 1, path, swappedTiles, gemPositions, scoreNumber);
+                            dfs(grid, validWords, {newRow, newCol}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, wordMultiplier, maxSwaps - 1, path, swappedTiles, gemPositions, scoreNumber, gemsValue, minGemsKept);
                             path.pop_back();
                             visited[newRow][newCol] = false;
                             grid[newRow][newCol] = temp;
@@ -250,7 +251,7 @@ void initializeValues(std::map<char, int> &letterValues, std::vector<std::vector
 }
 
 //topWords is a minheap
-void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid, int &maxSwaps, Trie& validWords, std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, std::vector<std::vector<bool>> &gemPositions, int scoreNumber) {
+void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid, int &maxSwaps, Trie& validWords, std::map<char, int> &letterValues, std::vector<std::vector<int>> &letterMultipliers, std::vector<std::vector<bool>> &wordMultipliers, std::vector<std::vector<bool>> &gemPositions, int scoreNumber, int gemsValue, int minGemsKept) {
 
     std::priority_queue<Word> topWords;
     std::vector<std::vector<bool>> visited(SIZE, std::vector<bool>(SIZE, false));
@@ -263,7 +264,7 @@ void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid
             Cell startCell = {row, col};
             visited[row][col] = true;
             path.push_back({row, col});
-            dfs(grid, validWords, startCell, std::string(1, grid[row][col]), topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps, path, swappedTiles, gemPositions, scoreNumber);
+            dfs(grid, validWords, startCell, std::string(1, grid[row][col]), topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps, path, swappedTiles, gemPositions, scoreNumber, gemsValue, minGemsKept);
             visited[row][col] = false;
             path.pop_back();
 
@@ -284,7 +285,7 @@ void solve(std::vector<Word>& topWordsVect, std::vector<std::vector<char>>& grid
                         swappedTiles.insert({row, col});  // Store the swapped tile coordinates and the letter it changed to
                         grid[row][col] = letter;
                         path.push_back({row, col});
-                        dfs(grid, validWords, {row, col}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps - 1, path, swappedTiles, gemPositions, scoreNumber);
+                        dfs(grid, validWords, {row, col}, newPrefix, topWords, visited, letterValues, letterMultipliers, wordMultipliers, 1, maxSwaps - 1, path, swappedTiles, gemPositions, scoreNumber, gemsValue, minGemsKept);
                         path.pop_back();
                         visited[row][col] = false;
                         grid[row][col] = temp;
