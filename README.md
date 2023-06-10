@@ -26,6 +26,7 @@ Note: SpellCast is bugged on the first turn of games where the 2x multiplier doe
 ![image](https://github.com/ppoiuy/spellcast-solver/assets/21088852/ae659cae-4358-48da-bcac-d11eba3b4dd4)
 
 ## To-Do
+- It should show results for lower numbers of swaps, not only the maximum
 - Tool tips
 - Filter out words with certain net changes (in case you want specifically words that give 3+ gems)
 - Pasting string of text should overflow to next text boxes, or add import line of text option
